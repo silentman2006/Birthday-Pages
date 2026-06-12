@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* --- Reset & Base Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #fed6e3 0%, #a8c1ef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; 
+            perspective: 1000px;
+        }
+
+        /* --- Card Container --- */
+        .card-container {
+            position: relative;
+            width: 380px;
+            height: 500px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            z-index: 10;
+        }
+        .card-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- Cover View (Initial State) --- */
+        .card-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff758c 0%, #ff7eb3 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            z-index: 2;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+            padding: 20px;
+        }
+        .card-cover h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        .card-cover p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        .open-btn {
+            background: #ffffff;
+            color: #ff758c;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .open-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- Inside Card View --- */
+        .card-inside {
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            background: #ffffff;
+        }
+        
+        /* Photo Styling */
+        .photo-frame {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #ff7eb3;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 15px;
+            background-color: #f3f3f3;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Text Styling */
+        .wishes-text h2 {
+            color: #ff758c;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .wishes-text p {
+            color: #555555;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* --- JavaScript Trigger Class --- */
+        .card-container.is-open .card-cover {
+            transform: translateY(-100%);
+        }
+
+        /* --- Background Animations (Balloons) --- */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 50px;
+            height: 65px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            z-index: 1;
+            animation: floatUp 8s linear infinite;
+            opacity: 0.6;
+        }
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 22px;
+            width: 0;
+            height: 0;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 8px solid currentColor;
+        }
+
+        /* --- Keyframes --- */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(-120vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="balloon" style="left: 10%; background-color: #ff758c; color: #ff758c; animation-delay: 0s; animation-duration: 7s;"></div>
+    <div class="balloon" style="left: 30%; background-color: #a8c1ef; color: #a8c1ef; animation-delay: 2s; animation-duration: 9s;"></div>
+    <div class="balloon" style="left: 75%; background-color: #f6d365; color: #f6d365; animation-delay: 1s; animation-duration: 8s;"></div>
+    <div class="balloon" style="left: 85%; background-color: #fd9644; color: #fd9644; animation-delay: 4s; animation-duration: 6s;"></div>
+
+    <div class="card-container" id="birthdayCard">
+        
+        <div class="card-cover">
+            <h1>Happy Birthday!</h1>
+            <p>A special surprise is waiting for you...</p>
+            <button class="open-btn" onclick="openCard()">Click to Open</button>
+        </div>
+
+        <div class="card-inside">
+            <div class="photo-frame">
+                <img src="image/aayushi.jpeg" alt="Birthday Person">
+            </div>
+
+            <div class="wishes-text">
+                <h2>Cheers to You!</h2>
+                <p>May your day be filled with laughter, joy, and all your favorite things. Wishing you a fantastic year ahead full of grand adventures and incredible success!</p>
+            </div>
+
+            <button class="open-btn" style="background: #ff758c; color: #fff; padding: 8px 20px; font-size: 0.9rem;" onclick="closeCard()">Close</button>
+        </div>
+
+    </div>
+
+    <audio id="birthdayMusic" src="image/Happy Birthday Soft Instrumental - Happy Birthday background Music.mp3" loop autoplay></audio>
+
+    <script>
+        const music = document.getElementById('birthdayMusic');
+
+        // Function to attempt playing audio safely
+        function tryPlayingMusic() {
+            music.play().then(() => {
+                // If successful, clean up global listeners to optimize performance
+                document.removeEventListener('click', tryPlayingMusic);
+                document.removeEventListener('touchstart', tryPlayingMusic);
+            }).catch(error => {
+                console.log("Autoplay blocked by browser policy. Waiting for user interaction to start audio.");
+            });
+        }
+
+        // 1. Try playing as soon as the window finishes loading
+        window.addEventListener('load', tryPlayingMusic);
+
+        // 2. Global fallback listeners: if blocked, any touch or click anywhere on the viewport triggers it instantly
+        document.addEventListener('click', tryPlayingMusic);
+        document.addEventListener('touchstart', tryPlayingMusic);
+
+        function openCard() {
+            document.getElementById('birthdayCard').classList.add('is-open');
+            
+            // Re-verify playback status just in case it hasn't caught on yet
+            music.play().catch(err => console.log(err));
+            
+            // Fire confetti burst
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 120,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function closeCard() {
+            document.getElementById('birthdayCard').classList.remove('is-open');
+            // Keep music playing even when card closes for ongoing background ambiance
+        }
+    </script>
+
+</body>
+</html>
